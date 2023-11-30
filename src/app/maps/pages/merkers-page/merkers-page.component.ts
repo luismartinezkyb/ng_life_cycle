@@ -31,11 +31,7 @@ interface PlainMarker {
   ]
 })
 export class MerkersPageComponent implements AfterViewInit{
-  // ngOnInit(): void {
-  //   const markersFromLocalStorage = localStorage.getItem('markers');
-
-  //   if(!markersFromLocalStorage) return;
-  // }
+  
 
   public map?: Map;
   public lngLat: LngLat = new LngLat(-100.82,20.53);
@@ -86,14 +82,16 @@ export class MerkersPageComponent implements AfterViewInit{
     .addTo(mapa)
     //AGREGAMOS EL MARKER AL ARREGLO DEL MARKER
     this.markers.push({color, marker});
-    this.saveToLocalStorage(this.markers.toString())
+    this.saveToLocalStorage()
+
+    marker.on('dragend', ()=>this.saveToLocalStorage())
   }
 
   //ELIMINAR MARKER
   deleteMarker(index:number){
     this.markers[index].marker.remove();
     this.markers.splice(index, 1);
-    this.saveToLocalStorage(this.markers.toString())
+    this.saveToLocalStorage()
     
   }
 
@@ -109,8 +107,9 @@ export class MerkersPageComponent implements AfterViewInit{
   }
   // :PlainMarker[] | null
   loadFromLocalStorage():void{
+    
     const plainMarkersString = localStorage.getItem('markers');
-
+    console.log(plainMarkersString)
     if(!plainMarkersString) return;
     const plainMarkers: PlainMarker[] = JSON.parse(plainMarkersString);
 
@@ -123,9 +122,7 @@ export class MerkersPageComponent implements AfterViewInit{
     });
   }
 
-  saveToLocalStorage(value:string| null){
-    if(!value) localStorage.clear();
-
+  saveToLocalStorage(){
     const plainMarker: PlainMarker[] = this.markers.map(({color, marker})=>({
       color,
       lngLat:marker.getLngLat().toArray()
@@ -136,6 +133,6 @@ export class MerkersPageComponent implements AfterViewInit{
   }
   ngOnDestroy(): void {
     this.map?.remove();
-    this.saveToLocalStorage(null)
+    this.saveToLocalStorage()
   }
 }
