@@ -9,15 +9,24 @@ export class ProductComponent implements OnInit, OnChanges, DoCheck, AfterConten
 
   public currentPrice: number = 10;
   constructor(){
-
+    //SE UTILIZA PARA INICIALIZACION
   }
   ngOnInit(): void {
     console.log('ngOnInit')
+    //PRIMERA PETIFCION HTTP TIMESRS; SUBSCRIPCIONES
   }
   ngOnChanges(changes: SimpleChanges): void {
     console.log({changes})
+    //SE UTILIZA SI NECESITAMOS ESTAR AL PENDIENTE DE LOS CAMBIOS
+    //DE LOS INPUTS 
     console.log('ngOnChanges')
   }
+  //NG DO CHECK AfterContentInit, Checkend, ViewInit, ViewChecket
+
+  //Basicamente cuando suceden cambios en inputs ,propiedades
+  //echar un vistazo en esas propiedades, 
+  //sistema de graficas para hacer modificacioens de pantalla en 
+  //el dom
   ngDoCheck(): void {
     console.log('ngDoCheck')
   }
@@ -35,6 +44,8 @@ export class ProductComponent implements OnInit, OnChanges, DoCheck, AfterConten
   }
   ngOnDestroy(): void {
     //TENEMOS QUE LIMPIAR EL CODIGO PARA PODER DESTRUIR OBJETOS
+    //Dbemos de hacer limpiezas si es que tenemos timers, 
+    //Subscriptions, intervalos, etc
     console.log('ngOnDestroy')
   }
   
